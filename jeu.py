@@ -39,10 +39,10 @@ class Jeu:
         elif px.btnp(px.KEY_D):
             self.navire1.change_orientation(-1)
             
-        if px.btn(px.KEY_SHIFT):
+        if px.btn(px.KEY_Z):
             self.navire1.change_vitesse(True)
             
-        elif px.btn(px.KEY_CTRL):
+        elif px.btn(px.KEY_S):
             self.navire1.change_vitesse(False)
             
         #============Controle navire 2===========
@@ -63,10 +63,10 @@ class Jeu:
         elif px.btnp(px.KEY_RIGHT):
             self.navire2.change_orientation(1)
         
-        if px.btnp(px.KEY_PLUS):
+        if px.btnp(px.KEY_UP):
             self.navire2.change_vitesse(True)
             
-        elif px.btnp(px.KEY_MINUS):
+        elif px.btnp(px.KEY_DOWN):
             self.navire2.change_vitesse(False)
 
         #================================
