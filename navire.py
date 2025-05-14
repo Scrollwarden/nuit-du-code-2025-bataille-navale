@@ -16,11 +16,12 @@ class Navire:
     - direction (int) : 0 UP, 1 UP-RIGHT, 2 RIGHT, 3 DOWN-RIGHT, 4 DOWN, 5 DOWN-LEFT, 6 LEFT, 7 UP-LEFT
     - position (list[int]) : position [x, y]
     '''
-    def __init__(self, direction, position):
+    def __init__(self, direction, position, name='no name'):
+        self.name = name
+
         # vies
         self.vie = 100
         self.equipage = 100
-        self.hitbox = (LONGUEUR_NAVIRE, LARGEUR_NAVIRE)
 
         # mouvement
         self.vitesse = BASE_SPEED
@@ -47,11 +48,12 @@ class Navire:
         self.type_fleche = 'flèche'
 
     def __str__(self):
-        return 'Navire'
+        return f'{self.name} has {self.vie} left and {self.equipage} percent of equipage alive'
     
     def assigne_equipage(self, poste):
         """
-        assigne 1% de l'équipage à un poste. Cet équipage doit être libre avant
+        assigne 10% de l'équipage à un poste. Cet équipage doit être libre avant.
+        Si le poste demandé est "libre", on enlève 1 à chaque poste
 
         poste (str) : le poste auquel le pourcentage d'équipage est assigné,
         parmi libre, combat, rames, soins, repare coque, repare voiles, repare rames
@@ -64,6 +66,58 @@ class Navire:
         equipage_reparation_coque = self.repare_coque
         equipage_reparation_voiles = self.repare_voiles
         equipage_reparation_rames = self.repare_rames
+
+        if poste == 'libre' and equipage_libre < equipage_max:
+            self.equipage_libre += 10
+            self.combat -= 3
+            self.rames -= 2
+            self.soins_equipage -= 1
+            self.repare_voiles -= 1
+            self.repare_coque -= 1
+            self.repare_rames -= 1
+        if equipage_libre > 0:
+            if poste == 'combat' and equipage_combat < equipage_max:
+                if equipage_libre >= 10:
+                    self.combat += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.combat += equipage_libre
+                    self.equipage_libre = 0
+            elif poste == 'rames' and equipage_rames < equipage_max:
+                if equipage_libre >= 10:
+                    self.rames += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.rames += equipage_libre
+                    self.equipage_libre = 0
+            elif poste == 'soins' and equipage_soins < equipage_max:
+                if equipage_libre >= 10:
+                    self.soins_equipage += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.soins_equipage += equipage_libre
+                    self.equipage_libre = 0
+            elif poste == 'repare coque':
+                if equipage_libre >= 10:
+                    self.repare_coque += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.repare_coque += equipage_libre
+                    self.equipage_libre = 0
+            elif poste == 'repare rames':
+                if equipage_libre >= 10:
+                    self.repare_rames += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.repare_rames += equipage_libre
+                    self.equipage_libre = 0
+            elif poste == 'repare voiles':
+                if equipage_libre >= 10:
+                    self.repare_voiles += 10
+                    self.equipage_libre -= 10
+                else:
+                    self.repare_voiles += equipage_libre
+                    self.equipage_libre = 0
 
     def reorganiser_equipage(self):
         """réorganise l'équipage en fonction des pertes"""
@@ -88,7 +142,8 @@ class Navire:
                     if equipage_reparation_voiles < 0:
                         equipage_reparation_voiles = 0 # aucun autre homme sur le pont ne peut être touché
 
-        equipage_libre += equipage_soins//2 # deux hommes pour en soigner un
+        if equipage_max < 100-(equipage_soins//2):
+            equipage_libre += equipage_soins//2 # deux hommes pour en soigner un
 
         self.equipage_libre = equipage_libre
         self.combat = equipage_combat
@@ -245,6 +300,7 @@ class Navire:
         x, y = self.position
         orientation = self.direction * 45
         pyxel.blt(x, y, 0, 0, 0, 88, 48, colkey=0, rotate=orientation)
+        pyxel.rect()
 
     def update(self):
         """met à jour le navire dans le jeu"""

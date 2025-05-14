@@ -12,8 +12,8 @@ class Jeu:
     def __init__(self):
         """crée deux navires"""
         px.load('theme.pyxres')
-        self.navire1 = Navire(3, BASE_POS_NAVIRE1)
-        self.navire2 = Navire(7, BASE_POS_NAVIRE2)
+        self.navire1 = Navire(3, BASE_POS_NAVIRE1, name='Navire 1')
+        self.navire2 = Navire(7, BASE_POS_NAVIRE2, name='Navire 2')
      
     def update(self):
         """met à jour le jeu"""
