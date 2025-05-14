@@ -62,11 +62,11 @@ class Jeu:
 
         #================================
         
-        if False:#a completer
+        if (self.navire1.position[0] > self.navire2.position[1] or self.navire1.position[0] + LARGEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[1] - (self.navire1.position[1]+LONGUEUR_NAVIRE))**2)<=15:
             type_degats , degats = self.navire1.inflige_degats('brise-coque')
             self.navire2.prends_degats(type_degats, degats)
         
-        elif False:#a completer
+        elif (self.navire2.position[0] > self.navire1.position[1] or self.navire2.position[0] + LARGEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[1] - (self.navire2.position[1]+LONGUEUR_NAVIRE))**2)<=15:
             type_degats , degats = self.navire2.inflige_degats('brise-coque')
             self.navire1.prends_degats(type_degats, degats)
                 
