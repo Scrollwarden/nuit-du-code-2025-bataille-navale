@@ -46,32 +46,41 @@ class Navire:
         # autres
         self.type_fleche = 'flèche'
 
+    def defini_vitesse_max(self, vitesse_max):
+        """définie la vitesse maximale en fonction des dommages subits"""
+        if self.dommages['Rames Babord'] <= 50 and ['Rames Tribord'] <= 50:
+            vitesse_max -= 10
+        elif self.dommages['Rames Babord'] <= 33 and ['Rames Tribord'] <= 33:
+            vitesse_max -= 20
+        elif self.dommages['Rames Babord'] <= 20 and ['Rames Tribord'] <= 20:
+            vitesse_max -= 30
+
+        if self.dommages['Voiles'] <= 66:
+            vitesse_max -= 40
+        elif self.dommages['Voiles'] <= 33:
+            vitesse_max -= 60
+        elif self.dommages['Voiles'] <= 10:
+            vitesse_max -= 80
+
+        if vitesse_max < 0:
+            vitesse_max = 0
+
+        return vitesse_max
+
     def change_vitesse(self, augmente):
         """
         change la vitesse du navire
         
         augmente (bool) : si la vitesse augmente ou diminue
         """
-        if self.dommages['Rames Babord'] <= 50 and ['Rames Tribord'] <= 50:
-            vitesse_max = 80
-        elif self.dommages['Rames Babord'] <= 33 and ['Rames Tribord'] <= 33:
-            vitesse_max = 70
-        elif self.dommages['Rames Babord'] <= 20 and ['Rames Tribord'] <= 20:
-            vitesse_max = 60
+        vitesse_max = self.defini_vitesse_max(100)
 
-        if self.dommages['Voiles'] <= 66:
-            vitesse_max -= 50
-        elif self.dommages['Voiles'] <= 33:
-            vitesse_max -= 80
-
-        inertie = 10
         if augmente:
-            if self.vitesse <= vitesse_max-inertie:
-                self.vitesse += inertie
+            if self.vitesse <= vitesse_max-INERTIE:
+                self.vitesse += INERTIE
         else:
-            if self.vitesse >= inertie:
-                self.vitesse -= inertie
-
+            if self.vitesse >= INERTIE:
+                self.vitesse -= INERTIE
 
     def change_orientation(self, direction):
         """
@@ -162,7 +171,7 @@ class Navire:
         """dessine le navire à l'écran"""
         x, y = self.position
         longueur, largeur = self.hitbox
-        pyxel.rect(x, y, longueur, largeur)
+        pyxel.rect(x, y, longueur, largeur, 8)
 
     def update(self):
         """met à jour le navire dans le jeu"""
