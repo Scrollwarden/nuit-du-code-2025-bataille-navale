@@ -20,3 +20,5 @@ LONGUEUR_NAVIRE = 88
 LARGEUR_NAVIRE = 48
 
 INERTIE = 10
+
+EQUIPAGE = ["libre", "combat", "rames", "soins", "repare coque", "repare voiles", "repare rames"]
