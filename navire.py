@@ -15,12 +15,15 @@ class Navire:
     - direction (str) : parmi 'x', '-x', 'y', '-y'
     - position (list[int]) : position [x, y]
     '''
-    def __init__(self, direction):
-        # params
-        self.position = [0, 0]
-        self.pv = 100
+    def __init__(self, direction, position):
+        # vies
+        self.vie = 100
         self.equipage = 100
+        self.hitbox = (position[0], position[1], LONGUEUR_NAVIRE, LARGEUR_NAVIRE)
+
+        # mouvement
         self.vitesse = BASE_SPEED
+        self.position = position
         self.direction = direction
 
         # zones d'action de l'équipage
@@ -36,38 +39,48 @@ class Navire:
         # points endommageables
         self.dommages = {'Rames Babord':100,
                          'Rames Tribord':100,
-                         'Cocque': 100,
+                         'Coque': 100,
                          'Voiles': 100}
 
-    def change_vitesse(self):
+    def change_vitesse(self, ):
         """change la vitesse du navire"""
-        if pyxel.btn(pyxel.KEY_UP):
-            if self.vitesse <= MAX_SPEED-10:
-                self.vitesse += 10
-        elif pyxel.btn(pyxel.KEY_DOWN):
-            if self.vitesse >= 10:
-                self.vitesse -= 10
+        if self.vitesse <= MAX_SPEED-10:
+            self.vitesse += 10
+        if self.vitesse >= 10:
+            self.vitesse -= 10
 
-    def tir(self, type_projectile):
-        """fait tirer le navire. Retourne le nombre de dégâts infligés géré dans la classe Jeu"""
-        pass
+    def inflige_degats(self, type_projectile):
+        """
+        fait tirer le navire. Retourne le nombre de dégâts infligés géré dans la classe Jeu
+        
+        type_projectile (str) : parmi 'flèche', 'feu', 'brise-coque'
+        """
+        if type_projectile == 'flèche':
+            degats = BASE_DAMAGE_ARROW * self.combat
+        elif type_projectile == 'feu':
+            degats = BASE_DAMAGE_ARROW_FIRE * self.combat
+        return (type_projectile, degats)
 
     def prends_degats(self, type_degats, degats):
         """
         inflige un certain nombre de dégâts au navire. Appelé dans Jeu.
 
-        type_degats (str) : le type de dégâts subit par le navire (flèche, flèche de feu, brise-coque)
+        type_degats (str) : le type de dégâts subit par le navire (flèche, feu ou brise-coque)
         degats (int) : le nombre de dégâts à infliger
         """
-        if type_degats in ('flèche de feu', 'brise-coque'):
-            self.pv -= degats
+        # dégâts purs
+        if type_degats in ('feu', 'brise-coque'):
+            self.vie -= degats
         else:
             self.equipage -= degats
         
+        # composantes endommagées
+        pass
 
     def deplacement(self):
         """déplace le navire"""
-
+        self.position[0] += self.vitesse
+        self.position[1] += self.vitesse
 
 
     def draw(self):
