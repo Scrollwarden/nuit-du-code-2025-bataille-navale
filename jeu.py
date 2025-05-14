@@ -12,6 +12,8 @@ class Jeu:
         """crée deux navires"""
         self.navire1 = Navire(3,[2,2])
         self.navire2 = Navire(7,[1,1])
+        self.cooldown1 = 0
+        self.cooldown2 = 0
      
     def update(self):
         """met à jour le jeu"""
@@ -62,13 +64,17 @@ class Jeu:
 
         #================================
         
-        if (self.navire1.position[0] > self.navire2.position[1] or self.navire1.position[0] + LARGEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[1] - (self.navire1.position[1]+LONGUEUR_NAVIRE))**2)<=15:
-            type_degats , degats = self.navire1.inflige_degats('brise-coque')
-            self.navire2.prends_degats(type_degats, degats)
+        if self.cooldown1 <= px.frame_count:
+            if (self.navire1.position[0] > self.navire2.position[1] or self.navire1.position[0] + LARGEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[1] - (self.navire1.position[1]+LONGUEUR_NAVIRE))**2)<=15:
+                type_degats , degats = self.navire1.inflige_degats('brise-coque')
+                self.navire2.prends_degats(type_degats, degats)
+                self.cooldown1 = px.frame_count + 300
         
-        elif (self.navire2.position[0] > self.navire1.position[1] or self.navire2.position[0] + LARGEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[1] - (self.navire2.position[1]+LONGUEUR_NAVIRE))**2)<=15:
-            type_degats , degats = self.navire2.inflige_degats('brise-coque')
-            self.navire1.prends_degats(type_degats, degats)
+        if self.cooldown2 <= px.frame_count:
+            if (self.navire2.position[0] > self.navire1.position[1] or self.navire2.position[0] + LARGEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[1] - (self.navire2.position[1]+LONGUEUR_NAVIRE))**2)<=15:
+                type_degats , degats = self.navire2.inflige_degats('brise-coque')
+                self.navire1.prends_degats(type_degats, degats)
+                self.cooldown2 = px.frame_count + 300
                 
         self.navire1.update()
         self.navire2.update()
