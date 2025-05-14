@@ -120,8 +120,12 @@ class Jeu:
         px.cls(5)
         if self.menu1:
             px.rect(2, 2, 25, 50, 7)
+            for indice in range(0,8):
+                px.text(10,5+indice*16,EQUIPAGE[indice],0)
         if self.menu2:
             px.rect(229, 204, 25, 50, 7)
+            for indice in range(0,8):
+                px.text(229,209+indice*16,EQUIPAGE[indice],0)
         self.navire1.draw()
         self.navire2.draw()
         
