@@ -13,7 +13,7 @@ class Navire:
     Les valeurs sont gérées en pourcentages.
     
     ATTRIBUTS
-    - direction (int) : 1 UP, 2 UP-RIGHT, 3 RIGHT, 4 DOWN-RIGHT, 5 DOWN, 6 DOWN-LEFT, 7 LEFT, 8 UP-LEFT
+    - direction (int) : 0 UP, 1 UP-RIGHT, 2 RIGHT, 3 DOWN-RIGHT, 4 DOWN, 5 DOWN-LEFT, 6 LEFT, 7 UP-LEFT
     - position (list[int]) : position [x, y]
     '''
     def __init__(self, direction, position):
@@ -28,8 +28,8 @@ class Navire:
         self.direction = direction
 
         # zones d'action de l'équipage
+        self.equipage_libre = BASE_ACTION_LIBRE     # équipage réassignable
         self.combat = BASE_ACTION_FLECHES           # puissance de feu
-        self.voiles = BASE_ACTION_VOILES            # direction du navire
         self.rames = BASE_ACTION_RAMES              # direction du navire
         self.soins_equipage = BASE_ACTION_SOINS     # régénération de équipage
             # zones d'action de réparage
@@ -48,7 +48,52 @@ class Navire:
 
     def __str__(self):
         return 'Navire'
+    
+    def assigne_equipage(self, poste):
+        """
+        assigne 1% de l'équipage à un poste. Cet équipage doit être libre avant
 
+        poste (str) : le poste auquel le pourcentage d'équipage est assigné,
+        parmi libre, combat, rames, soins, repare coque, repare voiles, repare rames
+        """
+        equipage_max = self.equipage
+        equipage_libre = self.equipage_libre
+        equipage_combat = self.combat
+        equipage_rames = self.rames
+        equipage_soins = self.soins_equipage
+        equipage_reparation_coque = self.repare_coque
+        equipage_reparation_voiles = self.repare_voiles
+        equipage_reparation_rames = self.repare_rames
+
+    def reorganiser_equipage(self):
+        """réorganise l'équipage en fonction des pertes"""
+        equipage_max = self.equipage
+        equipage_libre = self.equipage_libre
+        equipage_combat = self.combat
+        equipage_rames = self.rames
+        equipage_soins = self.soins_equipage
+        equipage_reparation_coque = self.repare_coque
+        equipage_reparation_voiles = self.repare_voiles
+        equipage_reparation_rames = self.repare_rames
+
+        equipage_employe = equipage_libre + equipage_rames + equipage_combat + equipage_soins + equipage_reparation_coque + equipage_reparation_rames + equipage_reparation_voiles
+        if equipage_max < equipage_employe:
+            equipage_libre -= (equipage_employe - equipage_max)
+            if equipage_libre < 0:
+                equipage_combat -= equipage_libre
+                equipage_libre = 0
+                if equipage_combat < 0:
+                    equipage_reparation_voiles -= equipage_combat
+                    equipage_combat = 0
+                    if equipage_reparation_voiles < 0:
+                        equipage_reparation_voiles = 0 # aucun autre homme sur le pont ne peut être touché
+
+        equipage_libre += equipage_soins//2 # deux hommes pour en soigner un
+
+        self.equipage_libre = equipage_libre
+        self.combat = equipage_combat
+        self.repare_voiles = equipage_reparation_voiles
+        
     def defini_vitesse_max(self, vitesse_max):
         """définie la vitesse maximale en fonction des dommages subits"""
         if self.dommages['Rames Babord'] <= 50 and ['Rames Tribord'] <= 50:
@@ -89,7 +134,7 @@ class Navire:
         """
         change la direction du navire
 
-        direction (int) : 1 UP, 2 UP-RIGHT, 3 RIGHT, 4 DOWN-RIGHT, 5 DOWN, 6 DOWN-LEFT, 7 LEFT, 8 UP-LEFT
+        direction (int) : 0 UP, 1 UP-RIGHT, 2 RIGHT, 3 DOWN-RIGHT, 4 DOWN, 5 DOWN-LEFT, 6 LEFT, 7 UP-LEFT
         direction doit valoir 1 ou -1 selon droite ou gauche
         """
         if self.dommages['Rames Babord'] <= 33:
@@ -98,10 +143,10 @@ class Navire:
             self.direction += 1
 
         self.direction += direction
-        if self.direction == 0:
-            self.direction = 8
-        if self.direction == 9:
-            self.direction = 1
+        if self.direction == -1:
+            self.direction = 7
+        if self.direction == 8:
+            self.direction = 0
 
     def change_type_fleche(self):
         """Change le type de flèche à celui qui n'est pas actif"""
@@ -141,6 +186,7 @@ class Navire:
             if random.randint(0, 10) <= 2:
                 self.dommages['Voiles'] -= degats*2
         elif type_degats == 'brise-coque':
+            self.vitesse = 20
             if random.randint(0, 10) <= 4:
                 self.dommages['Coque'] -= degats
             if random.randint(0, 10) <= 6:
@@ -148,31 +194,34 @@ class Navire:
                     self.dommages['Rames Babord'] -= degats*2
                 else:
                     self.dommages['Rames Tribord'] -= degats*2
+        elif type_degats == 'flèche':
+            if random.randint(0, 10) <= 1:
+                self.dommages['Voiles'] -= degats//4
 
     def deplacement(self):
         """déplace le navire"""
         if pyxel.frame_count % 30 == 0:
             direction = self.direction
-            mouvement = self.vitesse//10
-            if direction == 1:
-                self.position[0] += mouvement
+            mouvement = self.vitesse/50
+            if direction == 0:
+                self.position[0] -= mouvement
+            elif direction == 1:
+                self.position[0] -= mouvement
+                self.position[1] += mouvement
             elif direction == 2:
-                self.position[0] += mouvement
                 self.position[1] += mouvement
             elif direction == 3:
+                self.position[0] += mouvement
                 self.position[1] += mouvement
             elif direction == 4:
-                self.position[0] -= mouvement
-                self.position[1] += mouvement
+                self.position[0] += mouvement
             elif direction == 5:
-                self.position[0] -= mouvement
-            elif direction == 6:
-                self.position[0] -= mouvement
+                self.position[0] += mouvement
                 self.position[1] -= mouvement
-            elif direction == 7:
+            elif direction == 6:
                 self.position[1] -= mouvement
             else:
-                self.position[0] += mouvement
+                self.position[0] -= mouvement
                 self.position[1] -= mouvement
 
     def dommage_coque_cassee(self):
@@ -194,10 +243,11 @@ class Navire:
     def draw(self):
         """dessine le navire à l'écran"""
         x, y = self.position
-        longueur, largeur = self.hitbox
-        pyxel.rect(x, y, longueur, largeur, 8)
+        orientation = self.direction * 45
+        pyxel.blt(x, y, 0, 0, 0, 88, 48, colkey=0, rotate=orientation)
 
     def update(self):
         """met à jour le navire dans le jeu"""
         self.deplacement()
+        self.reorganiser_equipage()
         self.dommage_coque_cassee()

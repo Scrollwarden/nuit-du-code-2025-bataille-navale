@@ -2,6 +2,7 @@
 Classe jeu
 '''
 import pyxel as px
+from constants import BASE_POS_NAVIRE1, BASE_POS_NAVIRE2
 from navire import Navire
 
 
@@ -9,8 +10,9 @@ class Jeu:
      
     def __init__(self):
         """crée deux navires"""
-        self.navire1 = Navire(3, [128, 20])
-        self.navire2 = Navire(7, [128, 220])
+        px.load('theme.pyxres')
+        self.navire1 = Navire(3, BASE_POS_NAVIRE1)
+        self.navire2 = Navire(7, BASE_POS_NAVIRE2)
      
     def update(self):
         """met à jour le jeu"""
