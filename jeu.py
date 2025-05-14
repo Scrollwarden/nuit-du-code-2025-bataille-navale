@@ -9,8 +9,8 @@ class Jeu:
      
     def __init__(self):
         """crée deux navires"""
-        self.navire1 = Navire(3)
-        self.navire2 = Navire(7)
+        self.navire1 = Navire(3,[2,2])
+        self.navire2 = Navire(7,[1,1])
      
     def update(self):
         """met à jour le jeu"""
@@ -48,10 +48,10 @@ class Jeu:
                 self.navire1.prends_degats(type_degats, degats)
         
         if px.btnp(px.KEY_LEFT):
-            self.navire2.change_orientation(1)
+            self.navire2.change_orientation(-1)
             
         elif px.btnp(px.KEY_RIGHT):
-            self.navire2.change_orientation(-1)
+            self.navire2.change_orientation(1)
         
         if px.btnp(px.KEY_PLUS):
             self.navire2.change_vitesse(True)
