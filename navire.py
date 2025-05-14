@@ -46,6 +46,9 @@ class Navire:
         # autres
         self.type_fleche = 'flèche'
 
+    def __str__(self):
+        return 'Navire'
+
     def defini_vitesse_max(self, vitesse_max):
         """définie la vitesse maximale en fonction des dommages subits"""
         if self.dommages['Rames Babord'] <= 50 and ['Rames Tribord'] <= 50:
@@ -148,8 +151,29 @@ class Navire:
 
     def deplacement(self):
         """déplace le navire"""
-        self.position[0] += self.vitesse
-        self.position[1] += self.vitesse
+        if pyxel.frame_count % 30 == 0:
+            direction = self.direction
+            mouvement = self.vitesse//10
+            if direction == 1:
+                self.position[0] += mouvement
+            elif direction == 2:
+                self.position[0] += mouvement
+                self.position[1] += mouvement
+            elif direction == 3:
+                self.position[1] += mouvement
+            elif direction == 4:
+                self.position[0] -= mouvement
+                self.position[1] += mouvement
+            elif direction == 5:
+                self.position[0] -= mouvement
+            elif direction == 6:
+                self.position[0] -= mouvement
+                self.position[1] -= mouvement
+            elif direction == 7:
+                self.position[1] -= mouvement
+            else:
+                self.position[0] += mouvement
+                self.position[1] -= mouvement
 
     def dommage_coque_cassee(self):
         """Dommages progressifs si la coque est trouée"""

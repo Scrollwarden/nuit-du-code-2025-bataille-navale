@@ -9,8 +9,8 @@ class Jeu:
      
     def __init__(self):
         """crée deux navires"""
-        self.navire1 = Navire(3)
-        self.navire2 = Navire(7)
+        self.navire1 = Navire(3, [128, 20])
+        self.navire2 = Navire(7, [128, 220])
      
     def update(self):
         """met à jour le jeu"""
@@ -21,7 +21,7 @@ class Jeu:
             self.navire1.change_type_fleche()
                 
         if px.btnp(px.KEY_E):
-            if :
+            if False:
                 type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
                 self.navire2.prends_degats(type_degats, degats)
         
@@ -43,7 +43,7 @@ class Jeu:
             self.navire2.change_type_fleche()
                 
         if px.btnp(px.KEY_1):
-            if :
+            if False :
                 type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
                 self.navire1.prends_degats(type_degats, degats)
         
@@ -79,6 +79,6 @@ class Jeu:
 
 if __name__ == "__main__":
     # Démarre l'application
-    px.init(80,80, title="Bataille Navale", fps = 60)
+    px.init(156,156, title="Bataille Navale", fps = 60)
     appli = Jeu()
     px.run(appli.update, appli.draw)
