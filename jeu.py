@@ -21,7 +21,20 @@ class Jeu:
         self.menu1 = False
         self.menu2 = False
      
-     
+    def draw_icons(self):
+        """"""
+        for ligne in range(2) :
+            for elt in range(4):
+                px.blt(4 + 25 * elt,2 + 40 * ligne,0,88 +16*elt,0 + 16*ligne,16,16)
+        if self.navire1.type_fleche == 'feu' :
+            px.blt(79,2,0,152,0,16,16)
+    
+        for ligne in range(2) :
+            for elt in range(4):
+                px.blt(160+ 25 * elt,170  +40 * ligne,0,88 +16*elt,0 + 16*ligne,16,16)
+        if self.navire2.type_fleche == 'feu':
+            px.blt(235,170,0,152,0,16,16)
+        
     def update(self):
         """met à jour le jeu"""
         
@@ -121,7 +134,7 @@ class Jeu:
         px.cls(5)
         self.navire1.draw()
         self.navire2.draw()
-        
+        self.draw_icons()
 
 if __name__ == "__main__":
     # Démarre l'application

@@ -11,7 +11,7 @@ class Navire:
     La classe Navire, objet principal du jeu.
 
     Les valeurs sont gérées en pourcentages.
-    
+
     ATTRIBUTS
     - direction (int) : 0 UP, 1 UP-RIGHT, 2 RIGHT, 3 DOWN-RIGHT, 4 DOWN, 5 DOWN-LEFT, 6 LEFT, 7 UP-LEFT
     - position (list[int]) : position [x, y]
@@ -43,14 +43,14 @@ class Navire:
                          'Rames Tribord':100,
                          'Coque': 100,
                          'Voiles': 100}
-        
+
         # autres
         self.type_fleche = 'flèche'
         self.hitbox = (0, 0, LONGUEUR_NAVIRE, LARGEUR_NAVIRE)
 
     def __str__(self):
         return f'{self.name} has {self.vie} left and {self.equipage} percent of equipage alive'
-    
+
     def assigne_equipage(self, poste):
         """
         assigne 10% de l'équipage à un poste. Cet équipage doit être libre avant.
@@ -98,21 +98,21 @@ class Navire:
                 else:
                     self.soins_equipage += equipage_libre
                     self.equipage_libre = 0
-            elif poste == 'repare coque':
+            elif poste == 'repare coque' and equipage_reparation_coque < equipage_max:
                 if equipage_libre >= 10:
                     self.repare_coque += 10
                     self.equipage_libre -= 10
                 else:
                     self.repare_coque += equipage_libre
                     self.equipage_libre = 0
-            elif poste == 'repare rames':
+            elif poste == 'repare rames' and equipage_reparation_rames < equipage_max:
                 if equipage_libre >= 10:
                     self.repare_rames += 10
                     self.equipage_libre -= 10
                 else:
                     self.repare_rames += equipage_libre
                     self.equipage_libre = 0
-            elif poste == 'repare voiles':
+            elif poste == 'repare voiles' and equipage_reparation_voiles < equipage_max :
                 if equipage_libre >= 10:
                     self.repare_voiles += 10
                     self.equipage_libre -= 10
@@ -149,7 +149,7 @@ class Navire:
         self.equipage_libre = equipage_libre
         self.combat = equipage_combat
         self.repare_voiles = equipage_reparation_voiles
-        
+
     def defini_vitesse_max(self, vitesse_max):
         """définie la vitesse maximale en fonction des dommages subits"""
         if self.dommages['Rames Babord'] <= 50 and ['Rames Tribord'] <= 50:
@@ -174,7 +174,7 @@ class Navire:
     def change_vitesse(self, augmente):
         """
         change la vitesse du navire
-        
+
         augmente (bool) : si la vitesse augmente ou diminue
         """
         vitesse_max = self.defini_vitesse_max(100)
@@ -211,7 +211,7 @@ class Navire:
     def inflige_degats(self, type_degats):
         """
         fait tirer le navire. Retourne le nombre de dégâts infligés géré dans la classe Jeu
-        
+
         type_degats (str) : parmi 'flèche' ou 'brise-coque'
         """
         if type_degats == 'flèche':
@@ -236,7 +236,7 @@ class Navire:
             self.vie -= degats
         else:
             self.equipage -= degats
-        
+
         # composantes endommagées
         if type_degats == 'feu':
             if random.randint(0, 10) <= 2:
