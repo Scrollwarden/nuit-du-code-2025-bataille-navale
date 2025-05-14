@@ -6,13 +6,14 @@ from constants import BASE_POS_NAVIRE1, BASE_POS_NAVIRE2
 from navire import Navire
 from constants import *
 
-
 class Jeu:
      
     def __init__(self):
         """crée deux navires"""
-        self.navire1 = Navire(3,[2,2])
-        self.navire2 = Navire(7,[1,1])
+        px.load('theme.pyxres')
+
+        self.navire1 = Navire(3, BASE_POS_NAVIRE1, name='Navire 1')
+        self.navire2 = Navire(7, BASE_POS_NAVIRE2, name='Navire 2')
         self.cooldown1 = 0
         self.cooldown2 = 0
         self.cooldown_fleche1 = 0
