@@ -3,6 +3,7 @@ Classe jeu
 '''
 import pyxel as px
 from navire import Navire
+from constants import *
 
 
 class Jeu:
@@ -21,7 +22,7 @@ class Jeu:
             self.navire1.change_type_fleche()
                 
         if px.btnp(px.KEY_E):
-            if False:#a completer
+            if (self.navire1.position[1] > self.navire2.position[1] or self.navire1.position[1] + LONGUEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[0] - (self.navire1.position[0]+LARGEUR_NAVIRE))**2)<=64:
                 type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
                 self.navire2.prends_degats(type_degats, degats)
         
@@ -43,7 +44,7 @@ class Jeu:
             self.navire2.change_type_fleche()
                 
         if px.btnp(px.KEY_1):
-            if False:#a completer
+            if (self.navire2.position[1] > self.navire1.position[1] or self.navire2.position[1] + LONGUEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[0] - (self.navire2.position[0]+LARGEUR_NAVIRE))**2)<=64:
                 type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
                 self.navire1.prends_degats(type_degats, degats)
         
@@ -80,8 +81,6 @@ class Jeu:
         self.navire1.draw()
         self.navire2.draw()
         
-
-
 
 if __name__ == "__main__":
     # Démarre l'application
