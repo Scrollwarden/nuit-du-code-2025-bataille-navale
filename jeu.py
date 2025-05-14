@@ -21,7 +21,7 @@ class Jeu:
             self.navire1.change_type_fleche()
                 
         if px.btnp(px.KEY_E):
-            if :
+            if False:#a completer
                 type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
                 self.navire2.prends_degats(type_degats, degats)
         
@@ -43,7 +43,7 @@ class Jeu:
             self.navire2.change_type_fleche()
                 
         if px.btnp(px.KEY_1):
-            if :
+            if False:#a completer
                 type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
                 self.navire1.prends_degats(type_degats, degats)
         
