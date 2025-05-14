@@ -2,7 +2,6 @@
 Classe jeu
 '''
 import pyxel as px
-from constants import BASE_POS_NAVIRE1, BASE_POS_NAVIRE2
 from navire import Navire
 from constants import *
 
@@ -21,20 +20,7 @@ class Jeu:
         self.menu1 = False
         self.menu2 = False
      
-    def draw_icons(self):
-        """"""
-        for ligne in range(2) :
-            for elt in range(4):
-                px.blt(4 + 25 * elt,2 + 40 * ligne,0,88 +16*elt,0 + 16*ligne,16,16)
-        if self.navire1.type_fleche == 'feu' :
-            px.blt(79,2,0,152,0,16,16)
-    
-        for ligne in range(2) :
-            for elt in range(4):
-                px.blt(160+ 25 * elt,170  +40 * ligne,0,88 +16*elt,0 + 16*ligne,16,16)
-        if self.navire2.type_fleche == 'feu':
-            px.blt(235,170,0,152,0,16,16)
-        
+     
     def update(self):
         """met à jour le jeu"""
         
@@ -132,9 +118,13 @@ class Jeu:
         Efface l'écran et dessine la mer
         """
         px.cls(5)
+        if self.menu1:
+            px.rect(2, 2, 25, 50, 7)
+        if self.menu2:
+            px.rect(229, 204, 25, 50, 7)
         self.navire1.draw()
         self.navire2.draw()
-        self.draw_icons()
+        
 
 if __name__ == "__main__":
     # Démarre l'application
