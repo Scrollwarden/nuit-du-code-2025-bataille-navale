@@ -11,28 +11,32 @@ class Jeu:
         """crée deux navires"""
         self.navire1 = Navire(3)
         self.navire2 = Navire(7)
+        self.projectile1 ='flèche'
+        self.projectile2 = 'flèche'
      
     def update(self):
         """met à jour le jeu"""
         
         if px.btnp(px.KEY_A):
-            if :
-                type_degats , degats = self.navire1.inflige_degats('flèche')
-                self.navire2.prends_degats(type_degats, degats)
+            if self.projectile1 == 'flèche':
+                self.projectile1 = 'feu'
+            else:
+                self.projectile1 = 'flèche'
                 
-        elif px.btnp(px.KEY_E):
+        if px.btnp(px.KEY_E):
             if :
-                type_degats , degats = self.navire1.inflige_degats('feu')
+                type_degats , degats = self.navire1.inflige_degats(self.projectile1)
                 self.navire2.prends_degats(type_degats, degats)
                 
         if px.btnp(px.KEY_0):
-            if :
-                type_degats , degats = self.navire2.inflige_degats('flèche')
-                self.navire1.prends_degats(type_degats, degats)
+            if self.projectile2 == 'flèche':
+                self.projectile2 = 'feu'
+            else:
+                self.projectile2 = 'flèche'
                 
-        elif px.btnp(px.KEY_1):
+        if px.btnp(px.KEY_1):
             if :
-                type_degats , degats = self.navire2.inflige_degats('feu')
+                type_degats , degats = self.navire2.inflige_degats(self.projectile2)
                 self.navire1.prends_degats(type_degats, degats)
         
         if px.btnp(px.KEY_Z):
