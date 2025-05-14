@@ -4,6 +4,7 @@ Classe jeu
 import pyxel as px
 from constants import BASE_POS_NAVIRE1, BASE_POS_NAVIRE2
 from navire import Navire
+from constants import *
 
 
 class Jeu:
@@ -23,7 +24,7 @@ class Jeu:
             self.navire1.change_type_fleche()
                 
         if px.btnp(px.KEY_E):
-            if False:
+            if (self.navire1.position[1] > self.navire2.position[1] or self.navire1.position[1] + LONGUEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[0] - (self.navire1.position[0]+LARGEUR_NAVIRE))**2)<=64:
                 type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
                 self.navire2.prends_degats(type_degats, degats)
         
@@ -45,15 +46,15 @@ class Jeu:
             self.navire2.change_type_fleche()
                 
         if px.btnp(px.KEY_1):
-            if False :
+            if (self.navire2.position[1] > self.navire1.position[1] or self.navire2.position[1] + LONGUEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[0] - (self.navire2.position[0]+LARGEUR_NAVIRE))**2)<=64:
                 type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
                 self.navire1.prends_degats(type_degats, degats)
         
         if px.btnp(px.KEY_LEFT):
-            self.navire2.change_orientation(1)
+            self.navire2.change_orientation(-1)
             
         elif px.btnp(px.KEY_RIGHT):
-            self.navire2.change_orientation(-1)
+            self.navire2.change_orientation(1)
         
         if px.btnp(px.KEY_PLUS):
             self.navire2.change_vitesse(True)
@@ -63,11 +64,11 @@ class Jeu:
 
         #================================
         
-        if False:#a completer
+        if (self.navire1.position[0] > self.navire2.position[1] or self.navire1.position[0] + LARGEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[1] - (self.navire1.position[1]+LONGUEUR_NAVIRE))**2)<=15:
             type_degats , degats = self.navire1.inflige_degats('brise-coque')
             self.navire2.prends_degats(type_degats, degats)
         
-        elif False:#a completer
+        elif (self.navire2.position[0] > self.navire1.position[1] or self.navire2.position[0] + LARGEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[1] - (self.navire2.position[1]+LONGUEUR_NAVIRE))**2)<=15:
             type_degats , degats = self.navire2.inflige_degats('brise-coque')
             self.navire1.prends_degats(type_degats, degats)
                 
@@ -82,8 +83,6 @@ class Jeu:
         self.navire1.draw()
         self.navire2.draw()
         
-
-
 
 if __name__ == "__main__":
     # Démarre l'application
