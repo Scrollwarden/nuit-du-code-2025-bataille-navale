@@ -7,8 +7,9 @@ Fichier principal lanceur du programme.
 '''
 
 import pyxel
+from jeu import Jeu
 
 
 if __name__ == "__main__":
-    pass
+    game = Jeu
 

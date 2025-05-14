@@ -12,7 +12,7 @@ class Navire:
     Les valeurs sont gérées en pourcentages.
     
     ATTRIBUTS
-    - direction (str) : parmi 'x', '-x', 'y', '-y'
+    - direction (int) : 1 UP, 2 UP-RIGHT, 3 RIGHT, 4 DOWN-RIGHT, 5 DOWN, 6 DOWN-LEFT, 7 LEFT, 8 UP-LEFT
     - position (list[int]) : position [x, y]
     '''
     def __init__(self, direction, position):
@@ -42,12 +42,26 @@ class Navire:
                          'Coque': 100,
                          'Voiles': 100}
 
-    def change_vitesse(self, ):
+    def change_vitesse(self):
         """change la vitesse du navire"""
-        if self.vitesse <= MAX_SPEED-10:
-            self.vitesse += 10
-        if self.vitesse >= 10:
-            self.vitesse -= 10
+        inertie = 10
+        if self.vitesse <= MAX_SPEED-inertie:
+            self.vitesse += inertie
+        if self.vitesse >= inertie:
+            self.vitesse -= inertie
+
+    def change_orientation(self, direction):
+        """
+        change la direction du navire
+
+        direction (int) : 1 UP, 2 UP-RIGHT, 3 RIGHT, 4 DOWN-RIGHT, 5 DOWN, 6 DOWN-LEFT, 7 LEFT, 8 UP-LEFT
+        direction doit valoir 1 ou -1
+        """
+        self.direction += direction
+        if self.direction == 0:
+            self.direction = 8
+        if self.direction == 9:
+            self.direction = 1
 
     def inflige_degats(self, type_projectile):
         """
