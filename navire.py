@@ -9,26 +9,35 @@ class Navire:
     '''
     La classe Navire, objet principal du jeu.
 
-    Les valeurs de vie, equipage et vitesse sont gérés en pourcentages.
+    Les valeurs sont gérées en pourcentages.
+    
+    ATTRIBUTS
+    - direction (str) : parmi 'x', '-x', 'y', '-y'
+    - position (list[int]) : position [x, y]
     '''
-    def __init__(self):
+    def __init__(self, direction):
         # params
         self.position = [0, 0]
         self.pv = 100
         self.equipage = 100
         self.vitesse = BASE_SPEED
+        self.direction = direction
 
         # zones d'action de l'équipage
         self.combat = BASE_ACTION_FLECHES           # puissance de feu
         self.voiles = BASE_ACTION_VOILES            # direction du navire
         self.rames = BASE_ACTION_RAMES              # direction du navire
         self.soins_equipage = BASE_ACTION_SOINS     # régénération de équipage
-        self.repare_coque = BASE_CALE               # brêches dans la coque
+            # zones d'action de réparage
+        self.repare_coque = BASE_REPARE_COQUE       # brêches dans la coque
+        self.repare_voiles = BASE_REPARE_VOILES     # voiles détruites
+        self.repare_rames = BASE_REPARE_RAMES       # rames détruites
 
-        # points endommageables, passe à False si endommagé
-        self.rames = {'babord':True, 'Tribord':True}
-        self.voiles = True
-        self.coque = True
+        # points endommageables
+        self.dommages = {'Rames Babord':100,
+                         'Rames Tribord':100,
+                         'Cocque': 100,
+                         'Voiles': 100}
 
     def change_vitesse(self):
         """change la vitesse du navire"""
@@ -58,6 +67,7 @@ class Navire:
 
     def deplacement(self):
         """déplace le navire"""
+
 
 
     def draw(self):
