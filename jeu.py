@@ -16,6 +16,8 @@ class Jeu:
         self.cooldown2 = 0
         self.cooldown_fleche1 = 0
         self.cooldown_fleche2 = 0
+        self.menu1 = False
+        self.menu2 = False
      
      
     def update(self):
@@ -38,12 +40,24 @@ class Jeu:
             
         elif px.btnp(px.KEY_D):
             self.navire1.change_orientation(-1)
+        
+        if px.btnp(px.KEY_TAB):
+            self.menu1 = not(self.menu1)
+        
+        if self.menu1:
+            if px.btn(px.KEY_Z):
+                pass
             
-        if px.btn(px.KEY_Z):
-            self.navire1.change_vitesse(True)
+            elif px.btn(px.KEY_S):
+                pass
+        else:
+            if px.btn(px.KEY_Z):
+                self.navire1.change_vitesse(True)
             
-        elif px.btn(px.KEY_S):
-            self.navire1.change_vitesse(False)
+            elif px.btn(px.KEY_S):
+                self.navire1.change_vitesse(False)
+            
+        
             
         #============Controle navire 2===========
             
@@ -63,11 +77,23 @@ class Jeu:
         elif px.btnp(px.KEY_RIGHT):
             self.navire2.change_orientation(1)
         
-        if px.btnp(px.KEY_UP):
-            self.navire2.change_vitesse(True)
+        if px.btnp(px.KEY_KP_ENTER):
+            self.menu2 = not(self.menu2)
+        
+        if self.menu2:
+            if px.btn(px.KEY_UP):
+                pass
             
-        elif px.btnp(px.KEY_DOWN):
-            self.navire2.change_vitesse(False)
+            elif px.btn(px.KEY_DOWN):
+                pass
+        else:
+            if px.btnp(px.KEY_UP):
+                self.navire2.change_vitesse(True)
+            
+            elif px.btnp(px.KEY_DOWN):
+                self.navire2.change_vitesse(False)
+        
+        
 
         #================================
         
