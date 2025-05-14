@@ -14,6 +14,9 @@ class Jeu:
         self.navire2 = Navire(7,[1,1])
         self.cooldown1 = 0
         self.cooldown2 = 0
+        self.cooldown_fleche1 = 0
+        self.cooldown_fleche2 = 0
+     
      
     def update(self):
         """met à jour le jeu"""
@@ -24,9 +27,11 @@ class Jeu:
             self.navire1.change_type_fleche()
                 
         if px.btnp(px.KEY_E):
-            if (self.navire1.position[1] > self.navire2.position[1] or self.navire1.position[1] + LONGUEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[0] - (self.navire1.position[0]+LARGEUR_NAVIRE))**2)<=64:
-                type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
-                self.navire2.prends_degats(type_degats, degats)
+            if self.cooldown_fleche1 <= px.frame_count:
+                if (self.navire1.position[1] > self.navire2.position[1] or self.navire1.position[1] + LONGUEUR_NAVIRE < self.navire2.position[1] + LONGUEUR_NAVIRE) and ((self.navire2.position[0] - (self.navire1.position[0]+LARGEUR_NAVIRE))**2)<=64:
+                    type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
+                    self.navire2.prends_degats(type_degats, degats)
+                    self.cooldown_fleche1 = px.frame_count + 60
         
         if px.btnp(px.KEY_Q):
             self.navire1.change_orientation(1)
@@ -46,9 +51,11 @@ class Jeu:
             self.navire2.change_type_fleche()
                 
         if px.btnp(px.KEY_1):
-            if (self.navire2.position[1] > self.navire1.position[1] or self.navire2.position[1] + LONGUEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[0] - (self.navire2.position[0]+LARGEUR_NAVIRE))**2)<=64:
-                type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
-                self.navire1.prends_degats(type_degats, degats)
+            if self.cooldown_fleche2 <= px.frame_count:
+                if (self.navire2.position[1] > self.navire1.position[1] or self.navire2.position[1] + LONGUEUR_NAVIRE < self.navire1.position[1] + LONGUEUR_NAVIRE) and ((self.navire1.position[0] - (self.navire2.position[0]+LARGEUR_NAVIRE))**2)<=64:
+                    type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
+                    self.navire1.prends_degats(type_degats, degats)
+                    self.cooldown_fleche2 = px.frame_count + 60
         
         if px.btnp(px.KEY_LEFT):
             self.navire2.change_orientation(-1)
