@@ -46,7 +46,6 @@ class Navire:
 
         # autres
         self.type_fleche = 'flèche'
-        self.hitbox = (0, 0, LONGUEUR_NAVIRE, LARGEUR_NAVIRE)
 
     def __str__(self):
         return f'{self.name} has {self.vie} left and {self.equipage} percent of equipage alive'
@@ -299,11 +298,11 @@ class Navire:
     def draw(self):
         """dessine le navire à l'écran"""
         x, y = self.position
+        hbx, hby, hbl, hbL = self.hitbox
         orientation = self.direction * 45
         pyxel.blt(x, y, 0, 0, 0, 88, 48, colkey=0, rotate=orientation)
         if self.name == 'Navire 2':
-            pyxel.blt(x, y, 0, 0, 48, 86, 16, colkey=0, rotate=orientation)
-        pyxel.rectb(x, y, LARGEUR_NAVIRE, LONGUEUR_NAVIRE, 8)
+            pyxel.blt(x, y, 0, 0, 48, 88, 48, colkey=0, rotate=orientation)
 
     def update(self):
         """met à jour le navire dans le jeu"""
