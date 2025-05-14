@@ -53,16 +53,22 @@ class Jeu:
         elif px.btnp(px.KEY_RIGHT):
             self.navire2.change_orientation(-1)
         
-        if px.btn(px.KEY_PLUS):
+        if px.btnp(px.KEY_PLUS):
             self.navire2.change_vitesse(True)
             
-        elif px.btn(px.KEY_MINUS):
+        elif px.btnp(px.KEY_MINUS):
             self.navire2.change_vitesse(False)
 
         #================================
         
+        if False:#a completer
+            type_degats , degats = self.navire1.inflige_degats('brise-coque')
+            self.navire2.prends_degats(type_degats, degats)
         
-        
+        elif False:#a completer
+            type_degats , degats = self.navire2.inflige_degats('brise-coque')
+            self.navire1.prends_degats(type_degats, degats)
+                
         self.navire1.update()
         self.navire2.update()
     
@@ -79,6 +85,6 @@ class Jeu:
 
 if __name__ == "__main__":
     # Démarre l'application
-    px.init(156,156, title="Bataille Navale", fps = 60)
+    px.init(256,256, title="Bataille Navale", fps = 60)
     appli = Jeu()
     px.run(appli.update, appli.draw)
