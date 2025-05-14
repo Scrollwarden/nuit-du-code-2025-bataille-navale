@@ -2,7 +2,7 @@
 Classe jeu
 '''
 import pyxel as px
-import Navire
+from navire import Navire
 
 
 class Jeu:
@@ -15,6 +15,8 @@ class Jeu:
     def update(self):
         """met à jour le jeu"""
         
+        #=============Controle navire 1==========
+        
         if px.btnp(px.KEY_A):
             self.navire1.change_type_fleche()
                 
@@ -22,15 +24,6 @@ class Jeu:
             if :
                 type_degats , degats = self.navire1.inflige_degats(self.navire1.type_fleche)
                 self.navire2.prends_degats(type_degats, degats)
-                
-        if px.btnp(px.KEY_0):
-            self.navire2.change_type_fleche()
-                
-        if px.btnp(px.KEY_1):
-            if :
-                type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
-                self.navire1.prends_degats(type_degats, degats)
-        
         
         if px.btnp(px.KEY_Q):
             self.navire1.change_orientation(1)
@@ -44,7 +37,15 @@ class Jeu:
         elif px.btn(px.KEY_CTRL):
             self.navire1.change_vitesse(False)
             
+        #============Controle navire 2===========
             
+        if px.btnp(px.KEY_0):
+            self.navire2.change_type_fleche()
+                
+        if px.btnp(px.KEY_1):
+            if :
+                type_degats , degats = self.navire2.inflige_degats(self.navire2.type_fleche)
+                self.navire1.prends_degats(type_degats, degats)
         
         if px.btnp(px.KEY_LEFT):
             self.navire2.change_orientation(1)
@@ -58,6 +59,9 @@ class Jeu:
         elif px.btn(px.KEY_MINUS):
             self.navire2.change_vitesse(False)
 
+        #================================
+        
+        
         
         self.navire1.update()
         self.navire2.update()
